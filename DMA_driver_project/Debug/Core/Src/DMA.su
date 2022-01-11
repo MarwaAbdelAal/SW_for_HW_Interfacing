@@ -1,0 +1,6 @@
+DMA.c:9:6:DMA_Init	16	static
+DMA.c:30:6:DMA_Parameters	24	static
+DMA.c:53:6:DMA2_stream0_enable	16	static
+DMA.c:62:14:DMA_CompleteTransfer	24	static
+DMA.c:67:6:DMA2_Stream0_IRQHandler	8	static
+DMA.c:72:6:DMA1_Stream0_IRQHandler	8	static
