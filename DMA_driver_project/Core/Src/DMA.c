@@ -30,16 +30,17 @@ void DMA_Init(unsigned char PID){
 }
 
 void DMA_Parameters(unsigned char PID, unsigned char trigger, unsigned int *src_arr, unsigned int *dest_arr, unsigned int data_items,
-		unsigned char item_size, unsigned char transfer_mode, unsigned char transfer_type, unsigned char priority_level, unsigned char fifo){
+		unsigned char item_size, unsigned char transfer_mode, unsigned char transfer_type, unsigned char priority_level,
+		unsigned char PINC_mode, unsigned char MINC_mode, unsigned char fifo_threshold){
 
     *DMA_registers[PID][S0CR] &= ~(0x03 << 6); // clear the data transfer direction first
-    *DMA_registers[PID][S0CR] |= (transfer_mode << 6); // select the direction
+    *DMA_registers[PID][S0CR] |= (transfer_mode << 6); // select the direction (memory to memory)
     
-    *DMA_registers[PID][S0CR] |= (0x01 << 9); // select Peripheral increment mode (PINC)
-    *DMA_registers[PID][S0CR] |= (0x01 << 10); // select Memory increment mode (MINC)
+    *DMA_registers[PID][S0CR] &= ~(0x03 << 9); // clear Peripheral and Memory increment bits first
+    *DMA_registers[PID][S0CR] |= (PINC_mode << 9); // select Peripheral increment mode (PINC)
+    *DMA_registers[PID][S0CR] |= (MINC_mode << 10); // select Memory increment mode (MINC)
 
-    *DMA_registers[PID][S0CR] &= ~(0x03 << 11); // clear Peripheral data size (PSIZE)
-    *DMA_registers[PID][S0CR] &= ~(0x03 << 13); // clear Memory data size (MSIZE)
+    *DMA_registers[PID][S0CR] &= ~(0x0F << 11); // clear Peripheral and Memory data size bits first
     *DMA_registers[PID][S0CR] |= (item_size << 11); // select Peripheral data size (PSIZE) to word
     *DMA_registers[PID][S0CR] |= (item_size << 13); // select Memory data size (MSIZE) to word
 
@@ -55,11 +56,11 @@ void DMA_Parameters(unsigned char PID, unsigned char trigger, unsigned int *src_
     *DMA_registers[PID][S0M0AR] = (unsigned int) dest_arr; // DMA2_stream 0 memory 0 address register
 
     *DMA_registers[PID][S0FCR] &= ~(0x03 << 0); // clear FIFO threshold bits first
-    *DMA_registers[PID][S0FCR] |= (fifo << 0); // FIFO threshold selection to 1/2 full FIFO in FIFO control register
+    *DMA_registers[PID][S0FCR] |= (fifo_threshold << 0); // FIFO threshold selection to 1/2 full FIFO in FIFO control register
 }
 
 /* start transfer */
-void DMA_stream0_enable(unsigned char PID){
+void DMA_Start_transfer(unsigned char PID){
 	// CLEAR ALL INTERRUPT FLAGS of DMA_Stream 0
 	*DMA_registers[PID][LIFCR] |= (0x01 << 0);
 	*DMA_registers[PID][LIFCR] |= (0x0F << 2);

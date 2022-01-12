@@ -1,9 +1,10 @@
 # A complete DMA driver
 
-## Project description: 
+## Project description
+
 - You are required to develop a complete software driver for the DMA peripheral in the STM32F401 MCU.
 
-## Project requirements:
+## Project requirements
 
 - Your driver should provide the following APIs:
   1. A function to initialize the DMA driver.
@@ -18,3 +19,8 @@
 - The second one is the destination array with the same type and size and will be initialized by all zeros.
 
 - Your DMA driver shall be used to copy the source array into the destination array.
+
+## DEMO
+
+> This is an indication for complete transfer
+![simulation_dma](Gif/dma_embedded.gif)

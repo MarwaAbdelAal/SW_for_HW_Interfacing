@@ -33,6 +33,14 @@
 #define HIGH_PRIORITY ((unsigned char)0x02)
 #define VERY_HIGH_PRIORITY ((unsigned char)0x03)
 
+// Peripheral increment mode
+#define FIXED_PINC ((unsigned char)0x00)
+#define INCREMENT_PINC ((unsigned char)0x01)
+
+// Memory increment mode
+#define FIXED_MINC ((unsigned char)0x00)
+#define INCREMENT_MINC ((unsigned char)0x01)
+
 // The Generic macro
 #define DMA_REG(PORT_ID, REG_ID) ((unsigned int*)(PORT_ID + REG_ID))
 
@@ -80,8 +88,9 @@
 
 // Function Declarations
 void DMA_Init(unsigned char PID);
-void DMA_Parameters(unsigned char PID, unsigned char trigger, unsigned int *src_arr, unsigned int *dest_arr, unsigned int data_items, unsigned char item_size, unsigned char transfer_mode, unsigned char transfer_type, unsigned char priority_level, unsigned char fifo);
-void DMA_stream0_enable(unsigned char PID);
+void DMA_Parameters(unsigned char PID, unsigned char trigger, unsigned int *src_arr, unsigned int *dest_arr, unsigned int data_items,
+		unsigned char item_size, unsigned char transfer_mode, unsigned char transfer_type, unsigned char priority_level, unsigned char PINC_mode, unsigned char MINC_mode, unsigned char fifo_threshold);
+void DMA_Start_transfer(unsigned char PID);
 void TC_CalloutNotification();
 
 
